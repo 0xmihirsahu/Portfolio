@@ -28,7 +28,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 font-mono max-w-[30ch] text-sm opacity-50">
-            The Code Place
+            The Code Place.
           </p>
         </a>
 
@@ -45,7 +45,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 font-mono max-w-[30ch] text-sm opacity-50">
-            The Brag Place
+            The Brag Place.
           </p>
         </a>
 
@@ -62,7 +62,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 font-mono max-w-[30ch] text-sm opacity-50">
-            The Rant Place
+            The Rant Place.
           </p>
         </a>
 
