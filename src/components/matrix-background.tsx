@@ -129,7 +129,7 @@ const MatrixBackground: React.FC = () => {
         }
 
         // Randomly change characters
-        if ((point.isMoving || Math.random() < 0.01) && Math.random() < 0.1) {
+        if ((point.isMoving || Math.random() < 0.02) && Math.random() < 0.2) {
           point.character = getRandomCharacter();
         }
 
