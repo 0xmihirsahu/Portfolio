@@ -37,16 +37,18 @@ const MatrixBackground: React.FC = () => {
     window.addEventListener('resize', resizeCanvas);
 
     // Combined configuration
-    const spacing = 12;
+    const spacing = 11;
     const fontSize = 10;
-    const rows = Math.ceil(window.innerHeight / spacing) + 2;
+    let isPhone = window.innerWidth <= 768;
+    
+    const rows = isPhone? Math.ceil(window.innerHeight / spacing) + 10 : Math.ceil(window.innerHeight / spacing) + 2;
     const cols = Math.ceil(window.innerWidth / spacing) + 2;
     const maxTravelDistance = spacing / 3;
     const influenceRadius = 160;
     const matrix = 'RUSTOLIDYJweb3{}*></"';
 
     const dimmedGrey = 'rgba(100, 100, 100, 0.1)';
-    const fullGrey = 'rgba(100, 100, 100, 0.15)';
+    const fullGrey = 'rgba(100, 100, 100, 0.18)';
 
     const getRandomCharacter = (): string => {
       return matrix.charAt(Math.floor(Math.random() * matrix.length));
@@ -62,7 +64,7 @@ const MatrixBackground: React.FC = () => {
           originalX: j * spacing,
           originalY: i * spacing,
           color: dimmedGrey,
-          hoverColor: 'rgba(100, 100, 100, 0.25)',
+          hoverColor: 'rgba(100, 100, 100, 0.27)',
           isMoving: false,
           opacity: 0,
           character: getRandomCharacter(),
@@ -72,7 +74,6 @@ const MatrixBackground: React.FC = () => {
     }
 
     let mousePos = { x: 0, y: 0 };
-    let isPhone = window.innerWidth <= 768;
 
     const animate = () => {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
