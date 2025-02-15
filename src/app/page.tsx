@@ -24,7 +24,7 @@ export default function Home() {
           <a
             key={name}
             href={url}
-            className="group border-2 p-4 transition-colors bg-neutral-800/30 border-neutral-800 hover:border-gray-200 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/50"
+            className="group border-2 p-4 transition-colors bg-neutral-800/30 border-neutral-800 hover:border-gray-200 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-700/50"
             target="_blank"
             rel="noopener noreferrer"
           >
