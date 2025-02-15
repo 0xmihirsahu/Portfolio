@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
   title: "Mihir's Portfolio",
-  description: "Mihir's Portfolio",
+  description: "Mihir Sahu's Portfolio",
 };
 const fontSans = FontSans({
   subsets: ["latin"],
