@@ -26,7 +26,7 @@ export default function AnimatedText() {
     const maxLength = Math.max(currentText.length, nextText.length);
 
     // Scrambling effect
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 12; i++) {
       const scrambled = Array.from({ length: maxLength }, (_, index) =>
         index < nextText.length && Math.random() > 0.7
           ? nextText[index] // Gradually reveal correct text
@@ -34,7 +34,7 @@ export default function AnimatedText() {
       ).join("");
 
       setDisplayText(scrambled);
-      await new Promise((resolve) => setTimeout(resolve, 40));
+      await new Promise((resolve) => setTimeout(resolve, 20));
     }
 
     // Set new text
