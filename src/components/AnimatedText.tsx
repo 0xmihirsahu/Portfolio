@@ -10,7 +10,7 @@ const texts = [
   "hi, i'm mihir, a smart contract dev."
 ];
 
-const allowedCharacters = ["ヒ", "を", "チ", "ク", "い", "て", "0", "1", "サ" , "か" ,"*" ,"$"];
+const allowedCharacters = ["B", "A", "R", "C", "D", "R", "0", "1", "M", "L", "K", "J", "I", "H", "G", "F", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 const getRandomCharacter = () =>
   allowedCharacters[Math.floor(Math.random() * allowedCharacters.length)];
@@ -26,15 +26,15 @@ export default function AnimatedText() {
     const maxLength = Math.max(currentText.length, nextText.length);
 
     // Scrambling effect
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 15; i++) {
       const scrambled = Array.from({ length: maxLength }, (_, index) =>
-        index < nextText.length && Math.random() > 0.4
+        index < nextText.length && Math.random() > 0.7
           ? nextText[index] // Gradually reveal correct text
           : getRandomCharacter()
       ).join("");
 
       setDisplayText(scrambled);
-      await new Promise((resolve) => setTimeout(resolve, 45));
+      await new Promise((resolve) => setTimeout(resolve, 40));
     }
 
     // Set new text
