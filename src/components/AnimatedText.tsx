@@ -55,7 +55,7 @@ export default function AnimatedText() {
   }, [currentTextIndex, isAnimating, animateText]);
 
   return (
-    <h1 className="font-semibold text-3xl transition-all duration-500">
+    <h1 className="font-semibold text-xl sm:text-2xl md:text-3xl transition-all duration-500 max-w-[90vw] break-words text-center">
       {displayText}
     </h1>
   );
