@@ -1,6 +1,7 @@
 import MatrixBackground from "@/components/matrix-background";
 import AnimatedText from "@/components/AnimatedText";
 import TextScramble from "@/components/TextScramble";
+import ScrambleLink from "@/components/ScrambleLink";
 
 export default function Home() {
   return (
@@ -22,20 +23,8 @@ export default function Home() {
             { name: "github", url: "https://github.com/0xmihirsahu/", desc: "the code place" },
             { name: "linkedin", url: "https://linkedin.com/in/0xmihirsahu/", desc: "the brag place" },
             { name: "x", url: "https://x.com/0xmihirsahu", desc: "the rant place" },
-          ].map(({ name, url, desc }) => (
-            <a
-              key={name}
-              href={url}
-              className="group border-2 p-4 transition-colors bg-neutral-800/30 border-neutral-800 hover:border-gray-200 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-700/50"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <h2 className="mb-3 text-2xl font-semibold">
-                {name}
-                
-              </h2>
-              <p className="font-mono text-sm opacity-50">{desc}</p>
-            </a>
+          ].map((link) => (
+            <ScrambleLink key={link.name} {...link} />
           ))}
         </div>
       </main>

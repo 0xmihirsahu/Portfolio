@@ -5,9 +5,11 @@ const texts = [
   "hi, i'm mihir, a buildoor.",
   "hi, i'm mihir, a blockchain dev.",
   "hi, i'm mihir, a rust engineer.",
+  "hi, i know how to get the things done.",
   "hi, i'm mihir, a web developer.",
   "hi, i'm mihir, a promptoor.",
-  "hi, i'm mihir, a smart contract dev."
+  "hi, i'm mihir, a smart contract dev.",
+  "hi, i'm on founder mode.",
 ];
 
 const allowedCharacters = ["B", "A", "R", "C", "D", "リ","ス","ト","か","ら", "R", "0", "1", "M", "L", "K", "J", "I", "H", "G", "F", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
