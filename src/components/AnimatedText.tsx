@@ -5,7 +5,7 @@ const texts = [
   "hi, i'm mihir, a buildoor.",
   "hi, i'm mihir, a blockchain dev.",
   "hi, i'm mihir, a rust engineer.",
-  "hi, i know how to get the things done.",
+  "hi, i know how to get things done.",
   "hi, i'm mihir, a web developer.",
   "hi, i'm mihir, a promptoor.",
   "hi, i'm mihir, a smart contract dev.",
