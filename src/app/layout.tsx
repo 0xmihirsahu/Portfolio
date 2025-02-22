@@ -4,6 +4,7 @@ import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { cn } from "@/utils/cn";
 import { ThemeProvider } from "@/components/theme-provider"
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: "Mihir's Portfolio",
@@ -32,6 +33,7 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
         <SpeedInsights />
+        <Analytics/>
       </body>
     </html>
   );
