@@ -34,6 +34,10 @@ export default function Home() {
           <ScrambleLink key={link.name} {...link} />
         ))}
       </div>
+
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 font-mono text-sm text-zinc-500/90 hover:text-zinc-500 transition-colors duration-300">
+        <span className="select-none">Want my resume? Just type it...</span>
+      </div>
     </main>
   );
 }
