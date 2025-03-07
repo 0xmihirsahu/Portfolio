@@ -29,6 +29,7 @@ const achievements = [
 
 // Konami Code sequence
 const KONAMI_CODE = ['0', 'x'];
+const RESUME_CODE = ['r', 'e', 's', 'u', 'm', 'e'];
 
 export default function Achievements() {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,6 +40,7 @@ export default function Achievements() {
   const [isHintVisible, setIsHintVisible] = useState(true);
   const [hintText, setHintText] = useState("");
   const [cycleCount, setCycleCount] = useState(0);
+  const [showingResume, setShowingResume] = useState(false);
 
   const resetState = useCallback(() => {
     setDisplayText("");
@@ -61,22 +63,46 @@ export default function Achievements() {
     return () => clearInterval(typeInterval);
   }, []);
 
+  const downloadResume = useCallback(() => {
+    // Replace with your actual resume URL
+    const resumeUrl = '/resume.pdf';
+    const link = document.createElement('a');
+    link.href = resumeUrl;
+    link.download = 'mihir-sahu-resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, []);
+
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      const newSequence = [...sequence, e.key];
-      if (newSequence.length > KONAMI_CODE.length) {
+      const newSequence = [...sequence, e.key.toLowerCase()];
+      
+      // Check for resume code
+      if (newSequence.length > RESUME_CODE.length) {
         newSequence.shift();
       }
+      
       setSequence(newSequence);
 
+      // Check for achievements code
       if (newSequence.join('') === KONAMI_CODE.join('')) {
         setIsVisible(true);
+      }
+      
+      // Check for resume code
+      if (newSequence.join('') === RESUME_CODE.join('')) {
+        setShowingResume(true);
+        setTimeout(() => {
+          downloadResume();
+          setShowingResume(false);
+        }, 1500);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [sequence]);
+  }, [sequence, downloadResume]);
 
   useEffect(() => {
     if (isVisible) {
@@ -171,7 +197,7 @@ export default function Achievements() {
 
   return (
     <>
-      {showHint && !isVisible && (
+      {showHint && !isVisible && !showingResume && (
         <motion.div
           key={`hint-${cycleCount}`}
           initial={{ opacity: 0, scale: 0.95 }}
@@ -261,6 +287,22 @@ export default function Achievements() {
               </>
             )}
           </motion.div>
+        </motion.div>
+      )}
+      
+      {showingResume && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed bottom-6 right-6 font-mono text-lg text-green-400 flex items-center gap-2 px-4 py-2"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            className="w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full"
+          />
+          Downloading Resume...
         </motion.div>
       )}
       
