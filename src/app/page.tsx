@@ -43,7 +43,7 @@ export default function Home() {
         ))}
       </nav>
 
-      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 font-mono text-sm text-zinc-500/90 hover:text-zinc-500 transition-colors duration-300">
+      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 font-mono text-sm text-zinc-500/90 hover:text-zinc-500 transition-colors duration-300 hidden md:block">
         <span className="select-none" role="note" aria-label="Resume download hint">Want my resume? Just type it...</span>
       </footer>
     </main>
