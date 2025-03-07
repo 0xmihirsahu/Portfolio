@@ -34,7 +34,9 @@ export default function Achievements() {
   const [isVisible, setIsVisible] = useState(false);
   const [sequence, setSequence] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
+  const [hintText, setHintText] = useState("press '0'");
   const [displayText, setDisplayText] = useState("");
+  const [isHintVisible, setIsHintVisible] = useState(true);
 
   const resetState = useCallback(() => {
     setDisplayText("");
@@ -88,6 +90,15 @@ export default function Achievements() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleHintAnimation = () => {
+    if (!isHintVisible) {
+      setHintText((prev) => prev === "press '0'" ? "press 'x'" : "press '0'");
+      setIsHintVisible(true);
+    } else {
+      setIsHintVisible(false);
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: {
@@ -133,11 +144,12 @@ export default function Achievements() {
       {showHint && !isVisible && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: 7, repeat: Infinity, repeatDelay: 2.5 }}
-          className="fixed bottom-4 right-4 font-mono text-sm text-green-500 opacity-50"
+          animate={{ opacity: isHintVisible ? 1 : 0 }}
+          transition={{ duration: 2 }}
+          onAnimationComplete={handleHintAnimation}
+          className="fixed bottom-4 right-4 font-mono text-sm text-green-500 opacity-50 flex flex-col items-end"
         >
-          type [0x]
+          <div>{hintText}</div>
         </motion.div>
       )}
       
