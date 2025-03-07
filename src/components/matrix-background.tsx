@@ -47,7 +47,7 @@ const MatrixBackground: React.FC = () => {
     const influenceRadius = 125;
     const matrix = 'RUSTOLIDYjacpvweb3{}*></"$@&';
 
-    const dimmedGrey = 'rgba(100, 100, 100, 0.042)';
+    const dimmedGrey = 'rgba(100, 100, 100, 0.047)';
     const fullGrey = 'rgba(100, 100, 100, 0.15)';
 
     const getRandomCharacter = (): string => {

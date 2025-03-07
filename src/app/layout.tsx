@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: "Mihir Sahu | Dev",
   description: "Mihir Sahu's Portfolio - A Developer specializing in Web3.",
   keywords: [
-    "Mihir Sahu", "Blockchain Developer", "Web3", "Engineer", "StarkSwirl", "FundMate", "Hacker", "Aptos", "Code Collision Finalist" ,"Starknet" , "Cairo",
-    "Zero-Knowledge Proofs", "AI", "Crypto", "Rust" , "Solidity", "ETHGlobal Finalist", "Founder", "Mihir" , "Sahu" , "Web3", "Ethereum", "Move", "ZK", "Starkhack" , "Developer"
+    "Mihir Sahu", "Blockchain Developer", "Web3", "Engineer", "StarkSwirl", "FundMate", "Hacker", "Aptos", "Code Collision Finalist" ,"Starknet" , "Cairo", "Hackathon winner",
+    "Zero-Knowledge Proofs", "AI", "Crypto", "Rust" , "Solidity", "ETHGlobal Finalist", "Founder", "Mihir" , "Sahu" , "backend", "fullstack", "frontend", "Web3", "Ethereum", "Move", "ZK", "Starkhack" , "Developer"
   ],
   authors: [{ name: "Mihir Sahu", url: "https://mihirsahu.xyz" }],
   metadataBase: new URL("https://mihirsahu.xyz"),
@@ -19,10 +19,28 @@ export const metadata: Metadata = {
     canonical: "https://mihirsahu.xyz",
   },
 };
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 })
+
+// Pre-stringify the JSON-LD to ensure consistent output
+const jsonLd = `{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mihir Sahu",
+  "alternateName": "0xmihirsahu",
+  "skills": "JavaScript TypeScript Rust Solidity Developer",
+  "url": "https://mihirsahu.xyz",
+  "sameAs": [
+    "https://twitter.com/0xmihirsahu",
+    "https://github.com/0xmihirsahu",
+    "https://linkedin.com/in/0xmihirsahu",
+    "https://instagram.com/0xmihrsahu"
+  ],
+  "description": " A developer specializing in Web3, Smart Contracts, and DeFi."
+}`;
 
 export default function RootLayout({
   children,
@@ -37,23 +55,10 @@ export default function RootLayout({
         <meta name="author" content="Mihir Sahu" />
         <meta name="theme-color" content="#000000" />
         <link rel="canonical" href="https://mihirsahu.xyz" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Mihir Sahu",
-            "alternateName": "0xmihirsahu",
-            "skills": "JavaScript TypeScript Rust Solidity Developer",
-            "url": "https://mihirsahu.xyz",
-            "sameAs": [
-              "https://twitter.com/0xmihirsahu",
-              "https://github.com/0xmihirsahu",
-              "https://linkedin.com/in/0xmihirsahu",
-              "https://instagram.com/0xmihrsahu"
-            ],
-            "description": " A developer specializing in Web3, Smart Contracts, and DeFi.",
-          })}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
       </head>
       <body className={cn(
           "min-h-screen bg-background font-sans antialiased",fontSans.variable)}>
