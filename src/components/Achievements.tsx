@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 const achievements = [
   {
@@ -37,9 +37,23 @@ export default function Achievements() {
   const [isMobile, setIsMobile] = useState(false);
   const [displayText, setDisplayText] = useState("");
   const [isHintVisible, setIsHintVisible] = useState(true);
-  
-  // Initialize hint text after checking screen size
+  const [cornerPosition, setCornerPosition] = useState({ x: 'right', y: 'bottom' });
   const [hintText, setHintText] = useState("");
+  const [cycleCount, setCycleCount] = useState(0);
+
+  const positions = useMemo(() => [
+    { x: 'left', y: 'top' },
+    { x: 'right', y: 'top' },
+    { x: 'left', y: 'bottom' },
+    { x: 'right', y: 'bottom' }
+  ], []);
+
+  const getRandomPosition = useCallback(() => {
+    const availablePositions = positions.filter(
+      pos => pos.x !== cornerPosition.x || pos.y !== cornerPosition.y
+    );
+    return availablePositions[Math.floor(Math.random() * availablePositions.length)];
+  }, [positions, cornerPosition]);
 
   const resetState = useCallback(() => {
     setDisplayText("");
@@ -89,7 +103,7 @@ export default function Achievements() {
   }, [isVisible, typeText, resetState]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowHint(true), 1500);
+    const timer = setTimeout(() => setShowHint(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -98,6 +112,13 @@ export default function Achievements() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
       setHintText(window.innerWidth <= 768 ? "?" : "press '0'");
+      
+      // Set initial position
+      if (window.innerWidth > 768) {
+        setCornerPosition(getRandomPosition());
+      } else {
+        setCornerPosition({ x: 'right', y: 'bottom' });
+      }
     };
 
     // Initial check
@@ -111,9 +132,20 @@ export default function Achievements() {
   const handleHintAnimation = () => {
     if (!isHintVisible) {
       if (isMobile) {
-        setHintText((prev) => prev === "?" ? "?" : "?");
+        setHintText("?");
       } else {
-        setHintText((prev) => prev === "press '0'" ? "press 'x'" : "press '0'");
+        // Update cycle count and text
+        const newCycleCount = (cycleCount + 1) % 2;
+        setCycleCount(newCycleCount);
+        
+        // Change text based on cycle
+        setHintText(newCycleCount === 0 ? "press '0'" : "then 'x'");
+        
+        // Change position every 2 cycles (after showing both hints)
+        if (newCycleCount === 0) {
+          const newPosition = getRandomPosition();
+          setCornerPosition(newPosition);
+        }
       }
       setIsHintVisible(true);
     } else {
@@ -169,15 +201,94 @@ export default function Achievements() {
     <>
       {showHint && !isVisible && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHintVisible ? 1 : 0 }}
-          transition={{ duration: 2 }}
+          key={`${cornerPosition.x}-${cornerPosition.y}-${cycleCount}`}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ 
+            opacity: isHintVisible ? 1 : 0,
+            scale: isHintVisible ? 1 : 0.95,
+            filter: isHintVisible 
+              ? "drop-shadow(0 0 10px rgba(34, 197, 94, 0.4)) drop-shadow(0 0 20px rgba(34, 197, 94, 0.2))" 
+              : "drop-shadow(0 0 0px rgba(34, 197, 94, 0))"
+          }}
+          transition={{ 
+            duration: 2,
+            ease: [0.4, 0, 0.2, 1]
+          }}
           onAnimationComplete={handleHintAnimation}
           onClick={isMobile ? handleMobileClick : undefined}
-          className={`fixed bottom-4 right-4 font-mono text-sm text-green-500 opacity-50 flex flex-col items-end
-            ${isMobile ? 'cursor-pointer hover:opacity-75 active:opacity-100 backdrop-blur-sm px-4 py-2 border border-green-500/20' : ''}`}
+          className={`fixed font-mono text-sm flex flex-col items-end select-none mix-blend-screen
+            ${cornerPosition.x === 'left' ? 'left-4' : 'right-4'}
+            ${cornerPosition.y === 'top' ? 'top-4' : 'bottom-4'}
+            ${isMobile 
+              ? 'cursor-pointer backdrop-blur-sm px-4 py-2 border border-green-500/20 rounded' 
+              : 'px-3 py-1.5'
+            }`}
         >
-          <div>{hintText}</div>
+          <motion.div 
+            className={`
+              relative group
+              ${!isMobile ? 'hover:scale-105 transition-transform duration-300' : ''}
+            `}
+            animate={{
+              textShadow: isHintVisible 
+                ? ['0 0 8px rgba(34, 197, 94, 0.5)', '0 0 12px rgba(34, 197, 94, 0.3)', '0 0 8px rgba(34, 197, 94, 0.5)']
+                : '0 0 0px rgba(34, 197, 94, 0)'
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <div className={`
+              text-green-400/90 font-medium tracking-wider
+              ${!isMobile && 'group-hover:text-green-300 transition-colors duration-300'}
+              relative
+            `}>
+              <motion.span
+                animate={{
+                  opacity: [0.9, 1, 0.9],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                {hintText}
+              </motion.span>
+              {!isMobile && (
+                <motion.div
+                  className="absolute -inset-1 bg-green-500/5 blur rounded-lg -z-10"
+                  animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.5, 0.7, 0.5]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              )}
+            </div>
+            {!isMobile && (
+              <>
+                <div className="absolute inset-0 bg-green-500/5 -z-10 blur-xl rounded-full transform scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <motion.div
+                  className="absolute -inset-2 bg-gradient-to-r from-green-500/0 via-green-500/10 to-green-500/0 -z-20 opacity-0 group-hover:opacity-100"
+                  animate={{
+                    backgroundPosition: ['200% 0', '-200% 0'],
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+              </>
+            )}
+          </motion.div>
         </motion.div>
       )}
       
