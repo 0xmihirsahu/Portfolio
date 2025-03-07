@@ -34,10 +34,12 @@ export default function Achievements() {
   const [isVisible, setIsVisible] = useState(false);
   const [sequence, setSequence] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
-  const [hintText, setHintText] = useState("press '0'");
+  const [isMobile, setIsMobile] = useState(false);
   const [displayText, setDisplayText] = useState("");
   const [isHintVisible, setIsHintVisible] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  
+  // Initialize hint text after checking screen size
+  const [hintText, setHintText] = useState("");
 
   const resetState = useCallback(() => {
     setDisplayText("");
@@ -87,19 +89,29 @@ export default function Achievements() {
   }, [isVisible, typeText, resetState]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowHint(true), 2500);
+    const timer = setTimeout(() => setShowHint(true), 1500);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    // Check if device is mobile
-    setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    // Check if mobile based on screen size
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setHintText(window.innerWidth <= 768 ? "?" : "press '0'");
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const handleHintAnimation = () => {
     if (!isHintVisible) {
       if (isMobile) {
-        setHintText((prev) => prev === "tap here" ? "to reveal" : "tap here");
+        setHintText((prev) => prev === "?" ? "?" : "?");
       } else {
         setHintText((prev) => prev === "press '0'" ? "press 'x'" : "press '0'");
       }
