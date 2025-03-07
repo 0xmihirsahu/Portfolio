@@ -227,7 +227,7 @@ export default function Achievements() {
                 }}
                 className="text-sm"
               >
-                {hintText}
+                [{hintText}]
               </motion.span>
               {!isMobile && (
                 <motion.div
