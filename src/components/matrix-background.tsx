@@ -45,10 +45,10 @@ const MatrixBackground: React.FC = () => {
     const cols = Math.ceil(window.innerWidth / spacing) + 2;
     const maxTravelDistance = spacing / 3;
     const influenceRadius = 125;
-    const matrix = 'RUSTOLIDYjacpvweb3{}*></"$@';
+    const matrix = 'RUSTOLIDYjacpvweb3{}*></"$@&';
 
-    const dimmedGrey = 'rgba(100, 100, 100, 0.1)';
-    const fullGrey = 'rgba(100, 100, 100, 0.2)';
+    const dimmedGrey = 'rgba(100, 100, 100, 0.042)';
+    const fullGrey = 'rgba(100, 100, 100, 0.15)';
 
     const getRandomCharacter = (): string => {
       return matrix.charAt(Math.floor(Math.random() * matrix.length));
@@ -64,7 +64,7 @@ const MatrixBackground: React.FC = () => {
           originalX: j * spacing,
           originalY: i * spacing,
           color: dimmedGrey,
-          hoverColor: 'rgba(100, 100, 100, 0.3)',
+          hoverColor: 'rgba(100, 100, 100, 0.33)',
           isMoving: false,
           opacity: 0,
           character: getRandomCharacter(),
