@@ -37,23 +37,8 @@ export default function Achievements() {
   const [isMobile, setIsMobile] = useState(false);
   const [displayText, setDisplayText] = useState("");
   const [isHintVisible, setIsHintVisible] = useState(true);
-  const [cornerPosition, setCornerPosition] = useState({ x: 'right', y: 'bottom' });
   const [hintText, setHintText] = useState("");
   const [cycleCount, setCycleCount] = useState(0);
-
-  const positions = useMemo(() => [
-    { x: 'left', y: 'top' },
-    { x: 'right', y: 'top' },
-    { x: 'left', y: 'bottom' },
-    { x: 'right', y: 'bottom' }
-  ], []);
-
-  const getRandomPosition = useCallback(() => {
-    const availablePositions = positions.filter(
-      pos => pos.x !== cornerPosition.x || pos.y !== cornerPosition.y
-    );
-    return availablePositions[Math.floor(Math.random() * availablePositions.length)];
-  }, [positions, cornerPosition]);
 
   const resetState = useCallback(() => {
     setDisplayText("");
@@ -112,13 +97,6 @@ export default function Achievements() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
       setHintText(window.innerWidth <= 768 ? "?" : "press '0'");
-      
-      // Set initial position
-      if (window.innerWidth > 768) {
-        setCornerPosition(getRandomPosition());
-      } else {
-        setCornerPosition({ x: 'right', y: 'bottom' });
-      }
     };
 
     // Initial check
@@ -140,12 +118,6 @@ export default function Achievements() {
         
         // Change text based on cycle
         setHintText(newCycleCount === 0 ? "press '0'" : "then 'x'");
-        
-        // Change position every 2 cycles (after showing both hints)
-        if (newCycleCount === 0) {
-          const newPosition = getRandomPosition();
-          setCornerPosition(newPosition);
-        }
       }
       setIsHintVisible(true);
     } else {
@@ -201,7 +173,7 @@ export default function Achievements() {
     <>
       {showHint && !isVisible && (
         <motion.div
-          key={`${cornerPosition.x}-${cornerPosition.y}-${cycleCount}`}
+          key={`hint-${cycleCount}`}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ 
             opacity: isHintVisible ? 1 : 0,
@@ -216,12 +188,10 @@ export default function Achievements() {
           }}
           onAnimationComplete={handleHintAnimation}
           onClick={isMobile ? handleMobileClick : undefined}
-          className={`fixed font-mono text-sm flex flex-col items-end select-none mix-blend-screen
-            ${cornerPosition.x === 'left' ? 'left-4' : 'right-4'}
-            ${cornerPosition.y === 'top' ? 'top-4' : 'bottom-4'}
+          className={`fixed bottom-6 right-6 font-mono text-base flex flex-col items-end select-none mix-blend-screen
             ${isMobile 
-              ? 'cursor-pointer backdrop-blur-sm px-4 py-2 border border-green-500/20 rounded' 
-              : 'px-3 py-1.5'
+              ? 'cursor-pointer backdrop-blur-sm px-5 py-3 border border-green-500/20 rounded-lg' 
+              : 'px-4 py-2'
             }`}
         >
           <motion.div 
@@ -231,7 +201,7 @@ export default function Achievements() {
             `}
             animate={{
               textShadow: isHintVisible 
-                ? ['0 0 8px rgba(34, 197, 94, 0.5)', '0 0 12px rgba(34, 197, 94, 0.3)', '0 0 8px rgba(34, 197, 94, 0.5)']
+                ? ['0 0 10px rgba(34, 197, 94, 0.5)', '0 0 15px rgba(34, 197, 94, 0.3)', '0 0 10px rgba(34, 197, 94, 0.5)']
                 : '0 0 0px rgba(34, 197, 94, 0)'
             }}
             transition={{
@@ -244,6 +214,7 @@ export default function Achievements() {
               text-green-400/90 font-medium tracking-wider
               ${!isMobile && 'group-hover:text-green-300 transition-colors duration-300'}
               relative
+              text-shadow: 0 0 8px rgba(34, 197, 94, 0.9), 0 0 12px rgba(34, 197, 94, 0.8), 0 0 8px rgba(34, 197, 94, 0.9)
             `}>
               <motion.span
                 animate={{
@@ -254,12 +225,13 @@ export default function Achievements() {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
+                className="text-sm"
               >
                 {hintText}
               </motion.span>
               {!isMobile && (
                 <motion.div
-                  className="absolute -inset-1 bg-green-500/5 blur rounded-lg -z-10"
+                  className="absolute -inset-2 bg-green-500/5 blur rounded-lg -z-10"
                   animate={{
                     scale: [1, 1.1, 1],
                     opacity: [0.5, 0.7, 0.5]
