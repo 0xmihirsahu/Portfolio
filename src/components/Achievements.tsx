@@ -19,7 +19,7 @@ const achievements = [
     url: "https://dorahacks.io/buidl/16821"
   },
   {
-    title: "Chainlink",
+    title: "Chainlink BlockMagic",
     description: "Top Quality Project Winner",
     className: "from-blue-900/20 to-blue-950/20 border-blue-900/50",
     details: "Created web3 autonomous uber using RL AI Agents using chainlink tools",
@@ -84,7 +84,7 @@ export default function Achievements() {
   }, [isVisible, typeText, resetState]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowHint(true), 10000);
+    const timer = setTimeout(() => setShowHint(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -134,7 +134,7 @@ export default function Achievements() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 0] }}
-          transition={{ duration: 5, repeat: Infinity, repeatDelay: 5 }}
+          transition={{ duration: 7, repeat: Infinity, repeatDelay: 2.5 }}
           className="fixed bottom-4 right-4 font-mono text-sm text-green-500 opacity-50"
         >
           type [0x]
