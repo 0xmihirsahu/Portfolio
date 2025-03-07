@@ -37,6 +37,7 @@ export default function Achievements() {
   const [hintText, setHintText] = useState("press '0'");
   const [displayText, setDisplayText] = useState("");
   const [isHintVisible, setIsHintVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   const resetState = useCallback(() => {
     setDisplayText("");
@@ -90,13 +91,26 @@ export default function Achievements() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    // Check if device is mobile
+    setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   const handleHintAnimation = () => {
     if (!isHintVisible) {
-      setHintText((prev) => prev === "press '0'" ? "press 'x'" : "press '0'");
+      if (isMobile) {
+        setHintText((prev) => prev === "tap here" ? "to reveal" : "tap here");
+      } else {
+        setHintText((prev) => prev === "press '0'" ? "press 'x'" : "press '0'");
+      }
       setIsHintVisible(true);
     } else {
       setIsHintVisible(false);
     }
+  };
+
+  const handleMobileClick = () => {
+    setIsVisible(true);
   };
 
   const containerVariants = {
@@ -147,7 +161,9 @@ export default function Achievements() {
           animate={{ opacity: isHintVisible ? 1 : 0 }}
           transition={{ duration: 2 }}
           onAnimationComplete={handleHintAnimation}
-          className="fixed bottom-4 right-4 font-mono text-sm text-green-500 opacity-50 flex flex-col items-end"
+          onClick={isMobile ? handleMobileClick : undefined}
+          className={`fixed bottom-4 right-4 font-mono text-sm text-green-500 opacity-50 flex flex-col items-end
+            ${isMobile ? 'cursor-pointer hover:opacity-75 active:opacity-100 backdrop-blur-sm px-4 py-2 border border-green-500/20' : ''}`}
         >
           <div>{hintText}</div>
         </motion.div>
