@@ -58,7 +58,7 @@ export default function Home() {
         ))}
       </section>
 
-      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 font-mono text-sm text-zinc-500/90 hover:text-zinc-500 transition-colors duration-300 hidden md:block">
+      <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 font-mono text-xs text-zinc-500/90 hover:text-zinc-500 transition-colors duration-300 hidden md:block">
         <span className="select-none" role="note" aria-label="Resume download hint">
           <TextScramble>Want my resume? Just type it...</TextScramble>
         </span>
