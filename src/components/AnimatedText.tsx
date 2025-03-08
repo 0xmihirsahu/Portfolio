@@ -45,7 +45,7 @@ export default function AnimatedText() {
   }, [displayText]);
 
   useEffect(() => {
-    const interval = setTimeout(() => {
+    const interval = setInterval(() => {
       if (!isAnimating) {
         const nextIndex = (currentTextIndex + 1) % texts.length;
         setCurrentTextIndex(nextIndex);
@@ -53,8 +53,13 @@ export default function AnimatedText() {
       }
     }, 3000);
 
-    return () => clearTimeout(interval);
+    return () => clearInterval(interval);
   }, [currentTextIndex, isAnimating, animateText]);
+
+  // Initial scramble on mount
+  useEffect(() => {
+    animateText(texts[0]);
+  }, []);
 
   return (
     <h1 className="font-semibold text-xl sm:text-2xl md:text-3xl transition-all duration-500 max-w-[90vw] break-words text-center">

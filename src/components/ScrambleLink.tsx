@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 const allowedCharacters = ["B", "A", "R", "C", "D", "リ","ス","ト","か","ら", "R", "0", "1", "M", "L", "K", "J", "I", "H", "G", "F", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
@@ -36,6 +36,11 @@ export default function ScrambleLink({ name, url, desc }: ScrambleLinkProps) {
     setDisplayDesc(desc);
     setIsScrambling(false);
   }, [name, desc, isScrambling]);
+
+  // Scramble on mount
+  useEffect(() => {
+    scrambleText();
+  }, []);
 
   return (
     <a

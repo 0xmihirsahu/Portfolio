@@ -46,7 +46,7 @@ export default function TextScramble({ children }: { children: React.ReactNode }
       });
 
       scrambleCount++;
-      if (scrambleCount > 7) {
+      if (scrambleCount > 5) {
         // Restore original text
         textNodes.forEach((node) => {
           node.textContent = originalTexts.current.get(node) || "";
@@ -54,7 +54,7 @@ export default function TextScramble({ children }: { children: React.ReactNode }
         setIsScrambling(false);
         clearInterval(scrambleInterval);
       }
-    }, 100);
+    }, 50);
 
     return () => clearInterval(scrambleInterval);
   }, [isScrambling]);

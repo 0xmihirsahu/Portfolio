@@ -30,21 +30,38 @@ export default function Home() {
         </Suspense>
       </section>
 
-      <nav 
+      <section 
         className="grid gap-5 text-center font-mono lg:w-full lg:max-w-5xl lg:grid-cols-3 lg:text-left"
         aria-label="Social links"
       >
         {[
-          { name: "github", url: "https://github.com/0xmihirsahu/", desc: "the code place", ariaLabel: "Visit my GitHub profile" },
-          { name: "linkedin", url: "https://linkedin.com/in/0xmihirsahu/", desc: "the brag place", ariaLabel: "Connect with me on LinkedIn" },
-          { name: "x", url: "https://x.com/0xmihirsahu", desc: "the rant place", ariaLabel: "Follow me on X (Twitter)" },
+          { 
+            name: "github", 
+            url: "https://github.com/0xmihirsahu/", 
+            desc: "the code place", 
+            ariaLabel: "Visit my GitHub profile" 
+          },
+          { 
+            name: "linkedin", 
+            url: "https://linkedin.com/in/0xmihirsahu/", 
+            desc: "the brag place", 
+            ariaLabel: "Connect with me on LinkedIn" 
+          },
+          { 
+            name: "x", 
+            url: "https://x.com/0xmihirsahu", 
+            desc: "the rant place", 
+            ariaLabel: "Follow me on X (Twitter)" 
+          },
         ].map((link) => (
           <ScrambleLink key={link.name} {...link} />
         ))}
-      </nav>
+      </section>
 
       <footer className="fixed bottom-8 left-1/2 -translate-x-1/2 font-mono text-sm text-zinc-500/90 hover:text-zinc-500 transition-colors duration-300 hidden md:block">
-        <span className="select-none" role="note" aria-label="Resume download hint">Want my resume? Just type it...</span>
+        <span className="select-none" role="note" aria-label="Resume download hint">
+          <TextScramble>Want my resume? Just type it...</TextScramble>
+        </span>
       </footer>
     </main>
   );
